@@ -8,7 +8,7 @@ contract Token {
     uint256 public totalSupply;
 
     mapping (address => uint256) public balanceOf;
-    mapping(address => mapping(address => uint256)) public allowance;
+    mapping (address => mapping(address => uint256)) public allowance;
 
     //Events - events are fired when a transfer or an approval happens
     event Transfer(address indexed from, address indexed to, uint256 value); 
@@ -37,6 +37,22 @@ contract Token {
         emit Transfer(_from, _to, _value);
     }
 
+    // Allow _spender to spend up to _value on your behalf
+   function approve(address _spender, uint256 _value) external returns (bool) {
+        require(_spender != address(0));
+        allowance[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
+    }
+    
+    // Allow _spender to spend up to _value on your behalf
+     function transferFrom(address _from, address _to, uint256 _value) external returns (bool) {
+        require(_value <= balanceOf[_from]);
+        require(_value <= allowance[_from][msg.sender]);
+        allowance[_from][msg.sender] = allowance[_from][msg.sender] - (_value);
+        _transfer(_from, _to, _value);
+        return true;
+    }
 }
 
 // 1000000000000000000000000
