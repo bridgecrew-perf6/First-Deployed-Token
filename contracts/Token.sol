@@ -2,12 +2,14 @@
 pragma solidity ^0.8.6;
 
 contract Token {
-    string public name = "WooHoo Token";
-    string public symbol = "WHT";
-    uint256 public decimals = 18;
-    uint256 public totalSupply = 1000000000000000000000000;
+    string public name;
+    string public symbol;
+    uint256 public decimals;
+    uint256 public totalSupply;
 
     mapping (address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
